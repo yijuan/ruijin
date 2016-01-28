@@ -64,7 +64,13 @@ class DoctorController {
             return
         }
 
-        [doctorInstance: doctorInstance]
+		def db
+		if(!doctorInstance?.subscriber) {
+			db = new DoctorBinding()
+			db.doctor = doctorInstance
+			db.save()
+		}
+        [doctorInstance: doctorInstance, db:db]
     }
 
     def edit(Long id) {

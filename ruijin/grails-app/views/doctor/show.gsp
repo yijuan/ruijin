@@ -1,4 +1,5 @@
 
+<%@page import="com.surelution.whistle.push.UserInfo"%>
 <%@ page import="com.surelution.ruijin.Doctor" %>
 <!DOCTYPE html>
 <html>
@@ -91,6 +92,34 @@
 					</div>
 				</dd>
 			</dl>
+			 
+			 <g:if test="${!doctorInstance.subscriber }">
+			 <dl class="dl-horizontal">
+				  <dt>
+					<label for="bindingImage"> <g:message code="doctor.bindingImage.label" default="Qr Image" />
+					</label>
+				 </dt>
+				<dd>
+					<div class="col-xs-8">
+						<img src="${createLink(action:'tempQr',controller:'qrImage',id:db.qrKey)}" class="img-rounded" style="width: 200px; height:200px "/>
+					</div>
+				</dd>
+			</dl>
+			</g:if>
+			<g:else>
+				<g:set var="ui" value="${UserInfo.loadUserInfo(doctorInstance.subscriber.openId) }"/>
+				 <dl class="dl-horizontal">
+				  <dt>
+					<g:message code="doctor.subscriber.label" default="Subscriber" />
+				 </dt>
+				<dd>
+					<div class="col-xs-8">
+						<img src="${ui.headImgUrl}" class="img-rounded" style="width: 200px; height:200px "/>
+						<br/>${ui.nickname }
+					</div>
+				</dd>
+			</dl>
+			</g:else>
 			 
 			<div style="margin-left:10%;">
                <a href="${createLink(action:'delete',controller:'doctor',id:doctorInstance.id) }" onclick="return confirm('${message(code:'default.button.delete.confirm.message',default:'亲，确认删除嘛？ ')}')" class="btn btn-primary" data-toggle="tooltip">删除</a>
